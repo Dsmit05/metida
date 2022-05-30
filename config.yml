@@ -1,0 +1,21 @@
+database:
+  host: localhost
+  port: 5432
+  table: metida
+  user: postgres
+  password: postgres
+
+apiServer:
+  host: localhost
+  port: 8080
+  readTimeout: 10
+  writeTimeout: 10
+
+debagServer:
+  host: localhost
+  port: 8081
+  readTimeout: 10
+  writeTimeout: 10
+
+cryptography:
+  secret: cat

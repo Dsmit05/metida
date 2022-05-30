@@ -1,0 +1,32 @@
+version: "3.9"
+services:
+  postgres:
+    image: postgres:14
+    restart: always
+    environment:
+      POSTGRES_DB: "metida"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+    logging:
+      options:
+        max-size: 10m
+        max-file: "3"
+    ports:
+      - '5432:5432'
+    volumes:
+      #- ./db/postgres/postgres-data:/var/lib/postgresql/data
+      # передаем схему базы для заполнения:
+      - ./db/postgres/sql/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+      # так же можем сразу ее заполнить(важны имена файлов, запускаться скрипты будут последовательно):
+      - ./db/postgres/sql/test_admin.sql:/docker-entrypoint-initdb.d/test_admin.sql
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: "no"
+    network_mode: host
+# Для прокидывания логов:
+#    volumes:
+#      - ./logs.json:/root/logs.json
+    depends_on:
+      - postgres

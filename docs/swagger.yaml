@@ -1,0 +1,323 @@
+basePath: /api/v1/
+definitions:
+  controllers.AuthenticationUserInput:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  controllers.CreateBlogInput:
+    properties:
+      description:
+        type: string
+      name:
+        type: string
+    required:
+    - description
+    - name
+    type: object
+  controllers.CreateContentInput:
+    properties:
+      description:
+        example: New content...
+        type: string
+      name:
+        example: My First Content
+        type: string
+    required:
+    - description
+    - name
+    type: object
+  controllers.CreateUserInput:
+    properties:
+      email:
+        example: ivashka2015@gmail.com
+        type: string
+      password:
+        example: Q@werty1_23
+        type: string
+      username:
+        example: Ivan
+        type: string
+    required:
+    - email
+    - password
+    - username
+    type: object
+  controllers.RefreshTokenInput:
+    properties:
+      rtoken:
+        type: string
+    required:
+    - rtoken
+    type: object
+  models.Blog:
+    properties:
+      description:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  models.Content:
+    properties:
+      description:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      userEmail:
+        type: string
+    type: object
+  response.Error:
+    properties:
+      code:
+        example: 3
+        type: integer
+      desc:
+        example: invalid input params
+        type: string
+      error:
+        example: status bad request
+        type: string
+    type: object
+  response.Success:
+    properties:
+      code:
+        example: 0
+        type: integer
+      data:
+        additionalProperties:
+          type: string
+        example:
+          key1: value
+          key2: value2
+        type: object
+      desc:
+        example: ok
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: API template server
+  title: metida
+  version: 1.0.0
+paths:
+  /auth/refresh:
+    post:
+      consumes:
+      - application/json
+      description: refresh access token
+      operationId: refresh-token
+      parameters:
+      - description: credentials
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.RefreshTokenInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Success'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Error'
+      summary: Refresh token
+      tags:
+      - auth
+  /auth/sign-in:
+    post:
+      consumes:
+      - application/json
+      description: log in account
+      operationId: login-account
+      parameters:
+      - description: credentials
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.AuthenticationUserInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Success'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Error'
+      summary: Sign In
+      tags:
+      - auth
+  /auth/sign-up:
+    post:
+      consumes:
+      - application/json
+      description: create account
+      operationId: create-account
+      parameters:
+      - description: credentials
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.CreateUserInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Success'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Error'
+      summary: Sign Up
+      tags:
+      - auth
+  /blog/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Show Blog by ID
+      operationId: show-blog
+      parameters:
+      - description: blog_id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Blog'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Error'
+      summary: ShowBlog
+      tags:
+      - blog
+  /lk/blog:
+    post:
+      consumes:
+      - application/json
+      description: Create Blog
+      operationId: protected-create-blog
+      parameters:
+      - description: credentials
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.CreateBlogInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: data
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Error'
+        "403":
+          description: error
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: CreateBlog
+      tags:
+      - blog
+  /lk/content:
+    post:
+      consumes:
+      - application/json
+      description: Create Content
+      operationId: protected-create-content
+      parameters:
+      - description: credentials
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.CreateContentInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Success'
+        "400":
+          description: error
+          schema:
+            type: string
+        "417":
+          description: Expectation Failed
+          schema:
+            $ref: '#/definitions/response.Error'
+      security:
+      - ApiKeyAuth: []
+      summary: CreateContent
+      tags:
+      - content
+  /lk/content/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Show Content
+      operationId: protected-show-content
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Content'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Error'
+        "417":
+          description: Expectation Failed
+          schema:
+            $ref: '#/definitions/response.Error'
+      security:
+      - ApiKeyAuth: []
+      summary: Show Content
+      tags:
+      - content
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorizations
+    type: apiKey
+swagger: "2.0"

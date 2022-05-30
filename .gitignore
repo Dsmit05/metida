@@ -1,0 +1,19 @@
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+metida
+/log/
+/logs/
+/prev/
+*.log
+debug.*
+temp.*
+/.idea/
+*.im
+#.env
+/postgres-data/
+logs.json

@@ -1,0 +1,31 @@
+filebeat.config:
+  modules:
+    path: ${path.config}/modules.d/*.yml
+    reload.enabled: false
+
+filebeat.autodiscover:
+  providers:
+    - type: docker
+      templates:
+        - condition.contains:
+            docker.container.image: metida_api_1
+          config:
+            - type: log
+              paths:
+                - "/mnt/logs/${data.docker.container.id}/*.log"
+      hints.enabled: true
+
+processors:
+  - add_cloud_metadata: ~
+
+output.elasticsearch.index: "metida-%{[agent.version]}"
+setup.template.name: "metida"
+setup.template.pattern: "metida-%{[agent.version]}"
+
+output.elasticsearch:
+  hosts: ['http://elasticsearch:9200']
+  username: elastic
+  password: ${ELASTIC_PASSWORD}
+
+http.enabled: true
+http.host: 0.0.0.0
