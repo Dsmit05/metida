@@ -26,7 +26,7 @@ func (o *UserHandler) AuthenticationUser(c *gin.Context) {...}
 func (o *UserHandler) RefreshTokenUser(c *gin.Context) {...}
 ```
 
-Далее авторизованный пользователь может создавать и просматривать свой [Content](https://github.com/Dsmit05/metida/blob/main/internal/models/user.go#L15):
+Далее авторизованный пользователь может создавать и просматривать свой [Content](https://github.com/Dsmit05/metida/blob/master/internal/models/user.go#L15):
 ```go
 // @Router /lk/content [POST]
 func (o *UserContent) CreateContent(c *gin.Context) {...}
@@ -35,7 +35,7 @@ func (o *UserContent) CreateContent(c *gin.Context) {...}
 func (o *UserContent) ShowContent(c *gin.Context) {...}
 ```
 
-и у данного сервиса есть свой [Blog](https://github.com/Dsmit05/metida/blob/main/internal/models/user.go#L8), который может посмотреть каждый:
+и у данного сервиса есть свой [Blog](https://github.com/Dsmit05/metida/blob/master/internal/models/user.go#L8), который может посмотреть каждый:
 ```go
 // @Router /blog/{id} [GET]
 func (o *SiteBlog) ShowBlog(c *gin.Context) {...}
@@ -49,7 +49,7 @@ func (o *SiteBlog) CreateBlog(c *gin.Context) {
 ```
 
 ### Запуск сервиса
-Все основные команды можно увидеть в [Makefile](https://github.com/Dsmit05/metida/blob/main/Makefile).
+Все основные команды можно увидеть в [Makefile](https://github.com/Dsmit05/metida/blob/master/Makefile).
 Для быстрого запуска выполните команду `docker-compose up`
 
 и перейдите к swagger документации: http://localhost:8081/swagger/index.html,
@@ -73,7 +73,7 @@ http://localhost:8081/
 ### Что нужно улучшить:
 - [ ] для production версии все настройки надо брать из защищенного места(к примеру consul)
 - [ ] для работы с postrgre использовать пул и выполнить более качественную обработку ошибок
-- [ ] использовать [кеш](https://github.com/Dsmit05/metida/blob/main/pkg/cache/lru/lru-cache.go) для частых запросов к бд
+- [ ] использовать [кеш](https://github.com/Dsmit05/metida/blob/master/pkg/cache/lru/lru-cache.go) для частых запросов к бд
 - [ ] не использовать в контейнерах network_mode: host
 - [ ] оставлять более подробные комментарии к функциям
 

@@ -24,7 +24,7 @@ docker compose up -d
 В папке logs приведена примерная конфигурация ELK и filebeat.
 
 Для начала запустите основное приложение в контейнере, filebeat будет забирать логи из контейнера.
-В [конфиге](https://github.com/Dsmit05/metida/blob/main/env-apps/logs/filebeat/config/filebeat.yml#L11) filebeat укажите имя контейнера.
+В [конфиге](https://github.com/Dsmit05/metida/blob/master/env-apps/logs/filebeat/config/filebeat.yml#L11) filebeat укажите имя контейнера.
 
 Для запуска перейдите в папку logs и выполните команду:
 ```
