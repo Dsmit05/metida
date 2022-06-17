@@ -40,7 +40,7 @@ func NewApiServer(
 	metricMiddl := metric.MetricsMiddleware(serveMux)
 
 	corsProvided := cors.New(cors.Options{
-		AllowedOrigins:   []string{"http://" + cfg.GetDebagAddr()},
+		AllowedOrigins:   cfg.GetCorsAllowedOrigins(),
 		AllowedHeaders:   []string{"Authorizations", "Content-Type"},
 		AllowCredentials: true,
 		Debug:            cfg.IfDebagOn(),

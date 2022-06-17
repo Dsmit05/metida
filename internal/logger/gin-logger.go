@@ -58,11 +58,16 @@ func RequestsError(c *gin.Context, status, code int, description string, err err
 		Role:      role,
 	}
 
+	var textError string
+	if err != nil {
+		textError = err.Error()
+	}
+
 	resp := &responseError{
 		Status:      status,
 		Code:        code,
 		Description: description,
-		Error:       err.Error(),
+		Error:       textError,
 	}
 
 	ZapLog.WithOptions(zap.WithCaller(false)).

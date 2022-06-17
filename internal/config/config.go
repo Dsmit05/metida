@@ -41,6 +41,11 @@ type DebagServer struct {
 	WriteTimeout int    `yaml:"writeTimeout"`
 }
 
+// CORS - contains parameter for cors settings.
+type CORS struct {
+	AllowedOrigins []string `yaml:"allowedOrigins"`
+}
+
 // Cryptography - contains secret for jwt token.
 type Cryptography struct {
 	Secret string `yaml:"secret"`
@@ -56,6 +61,7 @@ type Config struct {
 	Database     Database     `yaml:"database"`
 	ApiServer    ApiServer    `yaml:"apiServer"`
 	DebagServer  DebagServer  `yaml:"debagServer"`
+	CORS         CORS         `yaml:"cors"`
 	Cryptography Cryptography `yaml:"cryptography"`
 	Project
 	CommandLineI
@@ -155,6 +161,12 @@ func (o *Config) GetDebagReadTimeout() time.Duration {
 func (o *Config) GetDebagWriteTimeout() time.Duration {
 	timeout := time.Duration(o.DebagServer.WriteTimeout) * time.Second
 	return timeout
+}
+
+// GetCorsAllowedOrigins return list of origins a cross-domain request can be executed from.
+func (o *Config) GetCorsAllowedOrigins() []string {
+	o.CORS.AllowedOrigins = append(o.CORS.AllowedOrigins, "http://"+o.GetDebagAddr())
+	return o.CORS.AllowedOrigins
 }
 
 // GetConfigInfo handler info build.

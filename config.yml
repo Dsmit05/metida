@@ -17,5 +17,8 @@ debagServer:
   readTimeout: 10
   writeTimeout: 10
 
+cors:
+  allowedOrigins: [http://localhost:3000]
+
 cryptography:
   secret: cat

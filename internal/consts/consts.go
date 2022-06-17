@@ -8,6 +8,6 @@ const (
 )
 
 const (
-	AccessTokenTTL  = time.Second * 60 * 5
-	RefreshTokenTTL = time.Hour * 24
+	AccessTokenTTL  = time.Second * 60 * 30
+	RefreshTokenTTL = time.Hour * 48
 )

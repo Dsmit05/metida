@@ -36,6 +36,7 @@ type configApiI interface {
 	GetApiAddr() string
 	GetApiReadTimeout() time.Duration
 	GetApiWriteTimeout() time.Duration
+	GetCorsAllowedOrigins() []string
 }
 
 type configGinBuilderI interface {
